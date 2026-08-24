@@ -324,6 +324,7 @@ void AddRecord() {
 }
 
 
+void listcourse();
 
 
 // Display all student records
@@ -605,6 +606,7 @@ void student_menu() {
 		cout << "================================" << endl;
 		cout << "1-Search Student Records" << endl;
 		cout << "2-Display all Student Records" << endl;
+		cout << "3 Display All Course " << endl;
 		cout << "3-Exit" << endl;
 		cout << "================================" << endl;
 
@@ -625,6 +627,12 @@ void student_menu() {
 			Backtomenu();
 			break;
 
+		case 3:listcourse();
+			cin.ignore();
+			Backtomenu();
+			break;
+				
+			
 		default:
 			cout << "Invalid option. Please try again." << endl;
 		}
