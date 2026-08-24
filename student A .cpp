@@ -30,6 +30,7 @@ bool studentLogin();
 void student_menu();
 void OpenFile();
 void SaveToFile();
+void SaveAccounts();
 
 void clearScreen() { system("CLS"); }
 
@@ -179,6 +180,7 @@ bool teacherRegister() {
 	teacherPassword[teacherCount] = password;
 	teacherCount++;
 
+	SaveAccounts();
 	cout << "[OK] Teacher account registered successfully!\n";
 	return true;
 }
@@ -237,6 +239,7 @@ bool studentRegister() {
 	studentUserPassword[studentCount] = password;
 	studentCount++;
 
+	SaveAccounts();
 	cout << "[OK] Student account registered successfully!\n";
 	return true;
 }
@@ -275,7 +278,7 @@ bool studentLogin() {
 void OpenFile() {
 
 	string line;
-	ifstream myfile("C:\\Users\\tanwe\\Documents\\student.txt");
+	ifstream myfile("student.txt");
 	if (myfile.is_open())
 	{
 		int x = 0;
@@ -426,7 +429,7 @@ void DeleteRecord(string search)
 void SaveToFile()
 {
 	ofstream myfile;
-	myfile.open("C:\\Users\\tanwe\\Documents\\student.txt");
+	myfile.open("student.txt");
 	if (!myfile.is_open())
 	{
 		cout << "Could not open file for saving!" << endl;
@@ -450,7 +453,7 @@ void SaveToFile()
 void SaveAccounts()
 {
 	ofstream myfile;
-	myfile.open("C:\\Users\\tanwe\\Documents\\id.txt");
+	myfile.open("id.txt");
 	if (!myfile.is_open())
 	{
 		cout << "Could not open file for saving accounts!" << endl;
@@ -469,10 +472,10 @@ void SaveAccounts()
 	cout << "Accounts saved successfully!" << endl;
 }
 // Load accounts from file
-void OpenAccounts() {
+void RegisterAccounts() {
 
 	string line;
-	ifstream myfile("C:\\Users\\tanwe\\Documents\\id.txt");
+	ifstream myfile("id.txt");
 	if (myfile.is_open())
 	{
 		while (getline(myfile, line))
@@ -491,8 +494,8 @@ void OpenAccounts() {
 				teacherCount++;
 			}
 			else if (type == "S" && studentCount < maxUsers) {
-				studentUserID[studentCount] = id;
-				studentUserPassword[studentCount] = password;
+				studentUserID [studentCount] = id;
+				studentUserPassword [studentCount] = password;
 				studentCount++;
 			}
 		}
@@ -539,6 +542,7 @@ void teacher_menu() {
 		switch (option) {
 
 		case 1: AddRecord();
+			SaveToFile();
 			cout << "Record Added!" << endl;
 			Backtomenu();
 			system("CLS");
@@ -548,6 +552,7 @@ void teacher_menu() {
 			cout << "Enter Student ID to update: ";
 			getline(cin, searchID);
 			UpdateRecord(searchID);
+			SaveToFile();
 			Backtomenu();
 			break;
 
@@ -559,6 +564,7 @@ void teacher_menu() {
 			Backtomenu();
 			cin.ignore();
 			system("CLS");
+			SaveToFile();
 			break;
 
 		case 4:
@@ -592,6 +598,7 @@ void student_menu() {
 	int option;
 	string searchID;
 	do {
+		clearScreen();
 		displayLogo();
 		cout << "================================" << endl;
 		cout << "student menu\n";
@@ -641,9 +648,9 @@ void quit() {
 
 // Main function
 int main() {
-	OpenFile();
-
 	char role;
+	OpenFile();
+	RegisterAccounts();
 	do {
 		clearScreen();
 		displayLogo();
