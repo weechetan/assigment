@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include<fstream>
+#include <fstream>
 #include <cctype>   
 #include <cstdlib>  
 #include <limits>
@@ -9,6 +9,9 @@ using namespace std;
 const int maxrow = 10;
 const int maxUsers = 10;
 
+
+const int maxCourses = 10;
+const int maxEnrollments = 50;
 
 
 string StuName[maxrow] = {};
@@ -31,10 +34,25 @@ void student_menu();
 void OpenFile();
 void SaveToFile();
 void SaveAccounts();
-
+void LoadCourses();
+void SaveCourses();
+void LoadEnrollments();
+void SaveEnrollments();
+void listcourse();
+void RegisterCourse(string studentID);
 void clearScreen() { system("CLS"); }
 
+// Course records
+string courseID[maxCourses];
+string courseName[maxCourses];
+int courseCount = 0;
 
+// Enrollment records (which student registered for which course)
+string enrollStudentID[maxEnrollments];
+string enrollCourseID[maxEnrollments];
+int enrollCount = 0;
+
+string currentStudentID = "";
 
 string validateString(string message) {
 	string input;
@@ -324,7 +342,6 @@ void AddRecord() {
 }
 
 
-void listcourse();
 
 
 // Display all student records
@@ -400,6 +417,149 @@ void UpdateRecord(string search)
 	}
 }
 
+
+// ---------- Course handling ----------
+
+// Load course list from file. If the file doesn't exist yet, seed it with
+// a few sample courses so the menu isn't empty on first run.
+void LoadCourses() {
+	string line;
+	ifstream myfile("courses.txt");
+	if (myfile.is_open())
+	{
+		while (courseCount < maxCourses && getline(myfile, line))
+		{
+			auto commaPos = line.find(',');
+			if (commaPos == string::npos) continue;
+			courseID[courseCount] = line.substr(0, commaPos);
+			courseName[courseCount] = line.substr(commaPos + 1);
+			courseCount++;
+		}
+		myfile.close();
+	}
+	else
+	{
+		// Seed with default courses on first run
+		string defaultIDs[] = { "C001", "C002", "C003", "C004" };
+		string defaultNames[] = { "Mathematics", "Computer Science", "English", "Physics" };
+		for (int i = 0; i < 4 && courseCount < maxCourses; i++) {
+			courseID[courseCount] = defaultIDs[i];
+			courseName[courseCount] = defaultNames[i];
+			courseCount++;
+		}
+		SaveCourses();
+	}
+}
+
+// Save course list to file
+void SaveCourses() {
+	ofstream myfile;
+	myfile.open("courses.txt");
+	if (!myfile.is_open())
+	{
+		cout << "Could not open file for saving courses!" << endl;
+		return;
+	}
+	for (int x = 0; x < courseCount; x++)
+	{
+		myfile << courseID[x] + "," + courseName[x] << endl;
+	}
+}
+
+// Load enrollment records from file
+void LoadEnrollments() {
+	string line;
+	ifstream myfile("enrollments.txt");
+	if (myfile.is_open())
+	{
+		while (enrollCount < maxEnrollments && getline(myfile, line))
+		{
+			auto commaPos = line.find(',');
+			if (commaPos == string::npos) continue;
+			enrollStudentID[enrollCount] = line.substr(0, commaPos);
+			enrollCourseID[enrollCount] = line.substr(commaPos + 1);
+			enrollCount++;
+		}
+		myfile.close();
+	}
+}
+
+// Save enrollment records to file
+void SaveEnrollments() {
+	ofstream myfile;
+	myfile.open("enrollments.txt");
+	if (!myfile.is_open())
+	{
+		cout << "Could not open file for saving enrollments!" << endl;
+		return;
+	}
+	for (int x = 0; x < enrollCount; x++)
+	{
+		myfile << enrollStudentID[x] + "," + enrollCourseID[x] << endl;
+	}
+}
+
+// Display all available courses
+void listcourse() {
+	system("CLS");
+	cout << "Available Course(s)" << endl;
+	cout << "================================" << endl;
+	if (courseCount == 0) {
+		cout << "No courses available." << endl;
+		return;
+	}
+	cout << " No. |   Course ID   |   Course Name" << endl << "--------------------------------" << endl;
+	for (int x = 0; x < courseCount; x++)
+	{
+		cout << " " << (x + 1) << "    " << courseID[x] << "        " << courseName[x] << endl;
+	}
+	cout << "================================" << endl;
+}
+
+// Let a student register for one of the listed courses
+void RegisterCourse(string studentID) {
+	if (courseCount == 0) {
+		cout << "No courses available to register for." << endl;
+		return;
+	}
+
+	if (enrollCount >= maxEnrollments) {
+		cout << "[ERROR] Enrollment list is full!" << endl;
+		return;
+	}
+
+	cout << "Enter the Course ID you want to register for: ";
+	string chosenCourseID;
+	cin >> chosenCourseID;
+
+	// Confirm the course ID exists
+	bool found = false;
+	for (int x = 0; x < courseCount; x++) {
+		if (courseID[x] == chosenCourseID) {
+			found = true;
+			break;
+		}
+	}
+	if (!found) {
+		cout << "[ERROR] Course ID not found." << endl;
+		return;
+	}
+
+	// Prevent double registration for the same course
+	for (int x = 0; x < enrollCount; x++) {
+		if (enrollStudentID[x] == studentID && enrollCourseID[x] == chosenCourseID) {
+			cout << "You are already registered for this course." << endl;
+			return;
+		}
+	}
+
+	enrollStudentID[enrollCount] = studentID;
+	enrollCourseID[enrollCount] = chosenCourseID;
+	enrollCount++;
+
+	SaveEnrollments();
+	cout << "[OK] Successfully registered for course " << chosenCourseID << "!" << endl;
+}
 
 // Delete a student record by ID
 void DeleteRecord(string search)
@@ -628,7 +788,12 @@ void student_menu() {
 			break;
 
 		case 3:listcourse();
-			cin.ignore();
+			char wantsToRegister;
+			cout << "Do you want to register for a course? (Y/N): ";
+			cin >> wantsToRegister;
+			wantsToRegister = toupper(wantsToRegister);
+			while (wantsToRegister != 'Y' && wantsToRegister != 'N')
+			if (wantsToRegister == 'Y') RegisterCourse(currentStudentID);
 			Backtomenu();
 			break;
 				
