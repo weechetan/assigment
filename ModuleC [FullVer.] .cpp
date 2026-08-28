@@ -367,7 +367,7 @@ void searchBooking() {
         case 4: // Date
             if (bookingDate[i] == searchTerm) match = true;
             break;
-        case 5: // Status (case-insensitive)
+        case 5: // Status
         {
             string status = bookingStatus[i];
             for (char& c : status) c = toupper(c);
