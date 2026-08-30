@@ -459,7 +459,7 @@ void displayBookStatus() {
         statusFilter = "Active";
     }
     else if (statChoice == 2) {
-        statusFilter = "Cancelled";  // ✅ Fixed spelling (was "Cancelled!")
+        statusFilter = "Cancelled";
     }
     else {
         cout << "Invalid choice!!!\n";
