@@ -34,12 +34,12 @@ void student_menu();
 void OpenFile();
 void SaveToFile();
 void SaveAccounts();
-void LoadCourses();
+bool LoadCourses();
 void SaveCourses();
 void LoadEnrollments();
 void SaveEnrollments();
-void listcourse();
-void RegisterCourse(string studentID);
+bool listcourse();
+bool RegisterCourse(string studentID);
 void clearScreen() { system("CLS"); }
 
 // Course records
@@ -315,7 +315,7 @@ void OpenFile() {
 }
 
 // Add a new student record
-void AddRecord() {
+bool AddRecord() {
 	char name[50];
 	char stuID[5];
 	cin.ignore();
@@ -325,27 +325,25 @@ void AddRecord() {
 	cout << "Student Name.";
 	cin.getline(name, 50);
 
-	for (int x = 0; x < maxrow;x++)
+	for (int x = 0; x < maxrow; x++)
 	{
 		if (StuID[x] == "\0")
-
 		{
 			StuID[x] = stuID;
 			StuName[x] = name;
-
-			break;
+			return true;
 		}
-
-
-
 	}
+
+	cout << "[ERROR] Student record list is full!" << endl;
+	return false;
 }
 
 
 
 
 // Display all student records
-void ListRecord()
+bool ListRecord()
 {
 	system("CLS");
 	cout << "current recode(s)" << endl;
@@ -360,12 +358,16 @@ void ListRecord()
 		}
 	}
 
-
+	if (counter == 0) {
+		cout << "No records found!" << endl;
+		return false;
+	}
+	return true;
 }
 
 
 // Search for a student record by ID
-void SearchRecord(string search) {
+bool SearchRecord(string search) {
 	system("CLS");
 	cout << "Current Record(s)" << endl;
 	cout << "================================" << endl;
@@ -387,11 +389,12 @@ void SearchRecord(string search) {
 		cout << "No records found!" << endl;
 	}
 	cout << "================================" << endl;
+	return counter > 0;
 }
 
 
 // Update a student record by ID
-void UpdateRecord(string search)
+bool UpdateRecord(string search)
 {
 	char name[50];
 
@@ -415,14 +418,15 @@ void UpdateRecord(string search)
 	{
 		cout << "No Student ID Found !" << endl;
 	}
+	return counter > 0;
 }
+
 
 
 // ---------- Course handling ----------
 
-// Load course list from file. If the file doesn't exist yet, seed it with
-// a few sample courses so the menu isn't empty on first run.
-void LoadCourses() {
+
+bool LoadCourses() {
 	string line;
 	ifstream myfile("courses.txt");
 	if (myfile.is_open())
@@ -436,6 +440,7 @@ void LoadCourses() {
 			courseCount++;
 		}
 		myfile.close();
+		return true;
 	}
 	else
 	{
@@ -448,8 +453,10 @@ void LoadCourses() {
 			courseCount++;
 		}
 		SaveCourses();
+		return false;
 	}
 }
+
 
 // Save course list to file
 void SaveCourses() {
@@ -500,13 +507,13 @@ void SaveEnrollments() {
 }
 
 // Display all available courses
-void listcourse() {
+bool listcourse() {
 	system("CLS");
 	cout << "Available Course(s)" << endl;
 	cout << "================================" << endl;
 	if (courseCount == 0) {
 		cout << "No courses available." << endl;
-		return;
+		return false;
 	}
 	cout << " No. |   Course ID   |   Course Name" << endl << "--------------------------------" << endl;
 	for (int x = 0; x < courseCount; x++)
@@ -514,18 +521,20 @@ void listcourse() {
 		cout << " " << (x + 1) << "    " << courseID[x] << "        " << courseName[x] << endl;
 	}
 	cout << "================================" << endl;
+	return true;
 }
 
+
 // Let a student register for one of the listed courses
-void RegisterCourse(string studentID) {
+bool RegisterCourse(string studentID) {
 	if (courseCount == 0) {
 		cout << "No courses available to register for." << endl;
-		return;
+		return false;
 	}
 
 	if (enrollCount >= maxEnrollments) {
 		cout << "[ERROR] Enrollment list is full!" << endl;
-		return;
+		return false;
 	}
 
 	cout << "Enter the Course ID you want to register for: ";
@@ -542,14 +551,14 @@ void RegisterCourse(string studentID) {
 	}
 	if (!found) {
 		cout << "[ERROR] Course ID not found." << endl;
-		return;
+		return false;
 	}
 
 	// Prevent double registration for the same course
 	for (int x = 0; x < enrollCount; x++) {
 		if (enrollStudentID[x] == studentID && enrollCourseID[x] == chosenCourseID) {
 			cout << "You are already registered for this course." << endl;
-			return;
+			return false;
 		}
 	}
 
@@ -559,10 +568,11 @@ void RegisterCourse(string studentID) {
 
 	SaveEnrollments();
 	cout << "[OK] Successfully registered for course " << chosenCourseID << "!" << endl;
+	return true;
 }
 
 // Delete a student record by ID
-void DeleteRecord(string search)
+bool DeleteRecord(string search)
 {
 	int counter = 0;
 	for (int x = 0; x < maxrow; x++)
@@ -581,9 +591,9 @@ void DeleteRecord(string search)
 
 	if (counter == 0)
 	{
-		cout << "ID Number does not exist";
+		cout << "ID Number does not exist" << endl;
 	}
-
+	return counter > 0;
 }
 
 // Save all student records to a file
