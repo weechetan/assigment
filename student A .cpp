@@ -126,7 +126,7 @@ void teacherSelection() {
 	}
 
 	if (loginStatus) {
-		teacher_menu();
+		studentrecord();
 	}
 }
 
@@ -178,6 +178,35 @@ void displayLogo() {
 
 
 }
+
+// ---------- ID validation ----------
+string validateID(string prompt) {
+	string id;
+	bool valid;
+
+	do {
+		valid = true;
+		cout << prompt;
+		cin >> id;
+
+		if (id.length() != 5) {
+			cout << "[ERROR] ID must be exactly 5 digits.\n";
+			valid = false;
+		}
+		else {
+			for (char c : id) {
+				if (!isdigit(c)) {
+					cout << "[ERROR] ID must contain numbers only.\n";
+					valid = false;
+					break;
+				}
+			}
+		}
+	} while (!valid);
+
+	return id;
+}
+
 // teacher register function
 bool teacherRegister() {
 	if (teacherCount >= maxUsers) {
@@ -212,7 +241,7 @@ bool teacherRegister() {
 // teacher login function
 bool teacherLogin() {
 	string id, password;
-
+	
 	clearScreen();
 	displayLogo();
 	cout << "=========================================\n";
@@ -690,7 +719,7 @@ void Backtomenu() {
 }
 
 // Teacher menu
-void teacher_menu() {
+void studentrecord() {
 	int option;
 	string searchID;
 	
@@ -824,6 +853,33 @@ void student_menu() {
 
 
 	}
+
+
+void teachermenu(){
+int reply;
+
+
+
+
+cout << "1. student record." << endl;
+cout << " 2. course record." << endl;
+cin >> reply;
+
+
+if (reply == 1) {
+	teachermenu
+
+
+}
+else {
+	
+	
+}
+
+
+
+};
+
 
 
 // Exit the program
