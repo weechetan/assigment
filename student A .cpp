@@ -867,7 +867,7 @@ cin >> reply;
 
 
 if (reply == 1) {
-	teachermenu
+	studentrecord();
 
 
 }
