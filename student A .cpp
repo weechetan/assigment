@@ -37,6 +37,7 @@ void SaveAccounts();
 bool AddRecord();
 bool UpdateRecord();
 bool DeleteRecord();
+bool SearchRecord();
 bool ListRecord();
 bool LoadCourses();
 void SaveCourses();
