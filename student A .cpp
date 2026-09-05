@@ -30,6 +30,7 @@ bool teacherLogin();
 void teacher_menu();
 bool studentRegister();
 bool studentLogin();
+void studentrecord();
 void student_menu();
 void OpenFile();
 void SaveToFile();
@@ -37,7 +38,6 @@ void SaveAccounts();
 bool AddRecord();
 bool UpdateRecord();
 bool DeleteRecord();
-bool SearchRecord();
 bool ListRecord();
 bool LoadCourses();
 void SaveCourses();
@@ -130,7 +130,6 @@ void teacherSelection() {
 		studentrecord();
 	}
 }
-
 
 // Student selection function
 void studentSelection() {
@@ -351,11 +350,11 @@ void OpenFile() {
 // Add a new student record
 bool AddRecord() {
 	char name[50];
-	char stuID[5];
+	char stuID[6];
 	cin.ignore();
 
 	cout << "Student ID.";
-	cin.getline(stuID, 5);
+	cin.getline(stuID, 6);
 	cout << "Student Name.";
 	cin.getline(name, 50);
 
@@ -856,35 +855,29 @@ void student_menu() {
 	}
 
 
-void teachermenu(){
-int reply;
+void teachermenu() {
+	int reply;
 
 
 
 
-cout << "1. student record." << endl;
-cout << " 2. course record." << endl;
-cin >> reply;
+	cout << "1. student record." << endl;
+	cout << " 2. course record." << endl;
+	cin >> reply;
 
 
-if (reply == 1) {
-	studentrecord();
+	if (reply == 1) {
+		studentrecord();
 
 
+	}
 }
-else {
 	
-	
-}
-
-
-
-};
 
 
 
 // Exit the program
-void quit() {
+void quit(){
 	cout << "Exiting the program..." << endl;
 	exit(0);
 }
