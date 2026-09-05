@@ -1282,7 +1282,7 @@ bool searchBooking()
         return false;
     }
 
-    cout << "Enter Search Team...:";
+    cout << "Enter Search Term...:";
     cin >> searchTerm;
 
     cout << "\n=============>>||<<==============\n";
