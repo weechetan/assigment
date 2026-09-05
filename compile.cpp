@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <iomanip>
 #include <string>
@@ -801,12 +800,12 @@ bool AddCourse()
         }
     }
 
-    cout << "Enter Course Name (e.g., Form 3 English): ";
+    cout << "Enter Course Name (e.g., English): ";
     getline(cin, name);
 
     cout << "Select Level:\n";
-    cout << "  1. Primary (小学)\n";
-    cout << "  2. Secondary (中学)\n";
+    cout << "  1. Primary\n";
+    cout << "  2. Secondary\n";
     cout << "Select choice (1 or 2): ";
 
     while (!(cin >> catChoice) || (catChoice != 1 && catChoice != 2)) {
