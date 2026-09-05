@@ -1496,7 +1496,6 @@ bool createBooking()
     cout << "Status\t\t\t: " << bookingStatus[bookingCount] << endl << endl;
 
     bookingCount++;
-    SaveBookings();
     return true; // create sucessfully
 }
 
@@ -1651,7 +1650,6 @@ bool modifyBookingDate(int bookingIndex)
 
     } while (!validBookingDate);
 
-    SaveBookings();
     cout << "Booking Date updated successfully." << endl;
     return true;
 }
@@ -1697,7 +1695,6 @@ bool cancelBooking()
 
     if (cancellationConfirmation == 'Y') {
         bookingStatus[bookingIndex] = "Cancelled";
-        SaveBookings();
         cout << "Booking cancelled successfully.\n" << endl;
         return true;
     }
@@ -2109,7 +2106,7 @@ int main()
     LoadAccounts();
     LoadCourses();
     LoadEnrollments();
-    LoadBookings(); 
+
 
     char role;
 
@@ -2128,7 +2125,7 @@ int main()
             SaveToFile();
             SaveCourses();
             SaveEnrollments();
-            SaveBookings();
+
         }
 
     } while (role != 'E');
@@ -2136,7 +2133,7 @@ int main()
     SaveToFile();
     SaveCourses();
     SaveEnrollments();
-    SaveBookings();
+
 
     cout << "\nThank you for using Tuition Centre System. Goodbye!\n";
     return 0;
