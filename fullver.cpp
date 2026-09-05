@@ -385,6 +385,15 @@ bool AddRecord()
 
     cout << "Student ID: ";
     cin.getline(stuID, 6);
+
+    // FIX: reject duplicate Student IDs before asking for the name
+    for (int x = 0; x < maxrow; x++) {
+        if (!StuID[x].empty() && StuID[x] == string(stuID)) {
+            cout << "[ERROR] This Student ID is already registered!\n";
+            return false;
+        }
+    }
+
     cout << "Student Name: ";
     cin.getline(name, 50);
 
