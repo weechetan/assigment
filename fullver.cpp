@@ -68,6 +68,7 @@ void student_menu();
 void OpenFile();
 void SaveToFile();
 void SaveAccounts();
+void LoadAccounts();
 bool AddRecord();
 bool UpdateRecord(string search);
 bool DeleteRecord(string search);
@@ -552,7 +553,6 @@ void LoadAccounts()
         studentFile.close();
     }
 }
-
 void studentrecord()
 {
     int choice;
