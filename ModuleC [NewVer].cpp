@@ -88,6 +88,7 @@ using namespace std;
                 break;
             }
         } while (choice != 7);
+		return 0;
     }
 
 //search booking
