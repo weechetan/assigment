@@ -582,6 +582,7 @@ void studentrecord()
         switch (choice) {
         case 1:
             AddRecord();
+            SaveToFile();
             Backtomenu();
             break;
         case 2:
@@ -589,6 +590,7 @@ void studentrecord()
             cout << "Enter Student ID to update: ";
             getline(cin, search);
             UpdateRecord(search);
+            SaveToFile();
             Backtomenu();
             break;
         case 3:
@@ -596,6 +598,7 @@ void studentrecord()
             cout << "Enter Student ID to delete: ";
             getline(cin, search);
             DeleteRecord(search);
+            SaveToFile();
             Backtomenu();
             break;
         case 4:
@@ -1493,6 +1496,7 @@ bool createBooking()
     cout << "Status\t\t\t: " << bookingStatus[bookingCount] << endl << endl;
 
     bookingCount++;
+    SaveBookings();
     return true; // create sucessfully
 }
 
@@ -1647,6 +1651,7 @@ bool modifyBookingDate(int bookingIndex)
 
     } while (!validBookingDate);
 
+    SaveBookings();
     cout << "Booking Date updated successfully." << endl;
     return true;
 }
@@ -1692,6 +1697,7 @@ bool cancelBooking()
 
     if (cancellationConfirmation == 'Y') {
         bookingStatus[bookingIndex] = "Cancelled";
+        SaveBookings();
         cout << "Booking cancelled successfully.\n" << endl;
         return true;
     }
@@ -2100,8 +2106,10 @@ void displayAnalysis()
 int main()
 {
     OpenFile();
+    LoadAccounts();
     LoadCourses();
     LoadEnrollments();
+    LoadBookings(); 
 
     char role;
 
@@ -2120,6 +2128,7 @@ int main()
             SaveToFile();
             SaveCourses();
             SaveEnrollments();
+            SaveBookings();
         }
 
     } while (role != 'E');
@@ -2127,6 +2136,7 @@ int main()
     SaveToFile();
     SaveCourses();
     SaveEnrollments();
+    SaveBookings();
 
     cout << "\nThank you for using Tuition Centre System. Goodbye!\n";
     return 0;
