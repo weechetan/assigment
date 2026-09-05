@@ -111,10 +111,10 @@ using namespace std;
 		cin >> searchChoice;
 
 		if (searchChoice == 6) {
-			return;
+			return false;
 		} if (searchChoice < 1 || searchChoice > 6) {
 			cout << "Invalid choice. Please Try Again...\n";
-			return;
+			return false;
 		}
 		cout << "Enter Search Team...:";
 		cin >> searchTerm;
@@ -163,6 +163,8 @@ using namespace std;
 		cout << " Press Enter to Continue...";
 		cin.ignore();
 		cin.get();
+
+		return found;
 	}
 
 //DISPLAY booking summary
@@ -178,7 +180,7 @@ using namespace std;
 			cout << "Press Enter to Continue...";
 			cin.ignore();
 			cin.get();
-			return;
+			return false;
 		}
 		cout << left << setw(5) << "No. " << left << setw(10) << "Booking ID" << left << setw(10) << "Student ID"
 			<< left << setw(10) << "Course ID" << left << setw(10) << "Date" << left << setw(10) << "Status" << endl;
@@ -193,6 +195,8 @@ using namespace std;
 		cout << "Press Enter to Continue...";
 		cin.ignore();
 		cin.get();
+
+		return true;
 	}
 
 // DISPLAY booking status
@@ -211,7 +215,7 @@ using namespace std;
 		cin >> statChoice;
 
 		if (statChoice == 3) {
-			return;
+			return 0;
 		} if (statChoice == 1) {
 			statusFilter = "Active";
 		}
@@ -220,7 +224,7 @@ using namespace std;
 		}
 		else {
 			cout << "Invalid choice!!!\n";
-			return;
+			return 0;
 		}
 		clearScreen();
 		cout << "\n============================================================\n";
