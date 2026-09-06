@@ -11,7 +11,7 @@ using namespace std;
 //                 STUDENT A - STUDENT MODULE
 // ============================================================
 
-const int maxrow = 10;
+const int maxrow = 50;
 const int maxUsers = 50;
 const int maxCourses = 50;
 const int maxEnrollments = 50;
