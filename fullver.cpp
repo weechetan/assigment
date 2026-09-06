@@ -12,7 +12,7 @@ using namespace std;
 // ============================================================
 
 const int maxrow = 10;
-const int maxUsers = 10;
+const int maxUsers = 50;
 const int maxCourses = 50;
 const int maxEnrollments = 50;
 
