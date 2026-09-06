@@ -403,7 +403,7 @@ bool AddRecord()
         }
     }
 
-    // new
+    
     for (int i = 0; i < studentCount; i++) {
         if (studentUserID[i] == string(stuID)) {
             cout << "[ERROR] This Student ID already has a login account!" << endl;
@@ -1255,7 +1255,7 @@ int menuCdisplay()
     int choice;
 
     do {
-        clearScreen();
+       
         cout << "\n===============<<||>>=================\n";
         cout << "       BOOKING MANAGEMENT SYSTEM\n";
         cout << "===============<<===>>=================\n";
